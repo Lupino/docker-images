@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND noninteractive
 RUN apt-get update && apt-get install -y git make gcc g++
 
 RUN git clone https://github.com/yinqiwen/ardb.git && cd ardb && make && cp src/ardb-server /usr/bin && cp ardb.conf /etc && cd .. && yes | rm -r ardb
-RUN sed -e 's@home.*@home /var/lib@' -e 's/loglevel.*/loglevel info/' -i /etc/ardb.conf
+RUN sed -e 's@home.*@home /var/lib/ardb@' -e 's/loglevel.*/loglevel info/' -i /etc/ardb.conf
 
 EXPOSE 16379
 ENTRYPOINT /usr/bin/ardb-server /etc/ardb.conf
