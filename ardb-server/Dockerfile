@@ -18,7 +18,7 @@ RUN git clone https://github.com/yinqiwen/ardb.git && \
 RUN sed -e 's@home.*@home /var/lib/ardb@' \
         -e 's/loglevel.*/loglevel info/' -i /etc/ardb.conf
 
-RUN echo 'trusted-ip 172.17.42.*' >> /etc/ardb.conf
+RUN echo 'trusted-ip *.*.*.*' >> /etc/ardb.conf
 
 WORKDIR /var/lib/ardb
 
