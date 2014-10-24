@@ -6,4 +6,6 @@ ADD ./periodic /usr/bin/periodic
 ENV PERIODIC_PORT tcp://:5000
 EXPOSE 5000
 
-CMD periodic -d
+ENTRYPOINT ["periodic"]
+
+CMD ["-d"]
