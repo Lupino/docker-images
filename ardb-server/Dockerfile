@@ -1,11 +1,11 @@
-FROM ubuntu:14.04
+FROM ubuntu:18.04
 MAINTAINER Li Meng Jun "lmjubuntu@gmail.com"
 
 # Set the env variable DEBIAN_FRONTEND to noninteractive
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && \
-    apt-get install -y git make gcc g++ automake autoconf libbz2-dev libz-dev
+    apt-get install -y git make gcc g++ automake autoconf libbz2-dev libz-dev wget
 
 RUN git clone https://github.com/yinqiwen/ardb.git && \
     cd ardb && \
