@@ -6,7 +6,7 @@ ENV ARCH x64
 RUN apt update \
   && apt install -y python3.7-dev python3.7 curl \
   && curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py \
-  && python get-pip.py \
+  && python3.7 get-pip.py \
   && pip install cython \
   && curl -fsSLO --compressed "https://nodejs.org/dist/v$NODE_VERSION/node-v$NODE_VERSION-linux-$ARCH.tar.xz" \
   && tar -xJf "node-v$NODE_VERSION-linux-$ARCH.tar.xz" -C /usr/local --strip-components=1 --no-same-owner \
