@@ -1,26 +1,28 @@
 FROM ubuntu:18.04
 MAINTAINER Li Meng Jun "lmjubuntu@gmail.com"
 
-# Set the env variable DEBIAN_FRONTEND to noninteractive
+# Build stage:
+
 ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && \
     apt-get install -y git make gcc g++ automake autoconf libbz2-dev libz-dev wget
 
 RUN git clone https://github.com/yinqiwen/ardb.git && \
-    cd ardb && \
-    make && \
-    cp src/ardb-server /usr/bin && \
-    cp ardb.conf /etc && \
-    cd .. && \
-    yes | rm -r ardb
+    make -C ardb && \
+    sed -e 's@home.*@home /var/lib/ardb@' \
+        -e 's/loglevel.*/loglevel info/' \
+        -i ardb/ardb.conf && \
+    echo 'trusted-ip *.*.*.*' >> ardb/ardb.conf
 
-RUN sed -e 's@home.*@home /var/lib/ardb@' \
-        -e 's/loglevel.*/loglevel info/' -i /etc/ardb.conf
+# Production stage:
 
-RUN echo 'trusted-ip *.*.*.*' >> /etc/ardb.conf
+FROM ubuntu:18.04
+
+COPY --from=0 ardb/ardb.conf       /etc/
+COPY --from=0 ardb/src/ardb-server /usr/bin
 
 WORKDIR /var/lib/ardb
 
 EXPOSE 16379
-ENTRYPOINT /usr/bin/ardb-server /etc/ardb.conf
+ENTRYPOINT ["/usr/bin/ardb-server", "/etc/ardb.conf"]
